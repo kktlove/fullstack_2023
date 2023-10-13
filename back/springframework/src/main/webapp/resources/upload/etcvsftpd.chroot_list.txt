@@ -1,0 +1,17 @@
+/etc/vsftpd.chroot_list
+
+/data1/userhome/ftpuser/ftp
+
+vi /etc/passwd
+
+
+admin:x:1002
+team1:x:1003
+team2:x:1004
+team3:x:1005
+team4:x:1006
+teacher:x:1007
+
+10.41.1.198
+
+iptables -I INPUT 1 -p tcp --dport 21 -j ACCEPT

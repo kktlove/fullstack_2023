@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="net.markenwerk.utils.json.parser" type="repository">
+    <properties maven-id="net.markenwerk:utils-json-parser:1.0.0" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/net/markenwerk/utils-json-parser/1.0.0/utils-json-parser-1.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

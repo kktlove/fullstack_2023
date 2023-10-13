@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery JSON API test1 - json</title>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>파라미터 없이 요청 URL만을 활용하여 Api서버로 부터 단순(문자열) 데이터 받기</h2>
+        <button id="btn1" onclick="test1()">Api1 </button>
+        <div id="con1"></div>
+        <hr>
+    </div>
+    <div class="container">
+        <h2>파라미터를 요청하여 Api 서버로 부터 각 키와 값으로 받아오기</h2>
+        <button id="btn2" onclick="test2()">Api2 </button>
+        <div id="con2"></div>
+        <hr>
+    </div>
+    <div class="container">
+        <h2>파라미터를 요청하여 Api 서버로 부터 객체로 받아오기</h2>
+        <button id="btn3" onclick="test3()">Api3 </button>
+        <div id="con3"></div>
+        <hr>
+    </div>
+    <div class="container">
+        <h2>파라미터를 요청하여 Api 서버로 부터 List 객체로 받아오기</h2>
+        <button id="btn4" onclick="test4()">Api4 </button>
+        <div id="con4"></div>
+        <hr>
+    </div>
+ <script>
+    function test1(){
+        $.ajax({
+            url:"http://localhost:8081/pro02/Api1", //요청URL
+            type:"post",    //요청 전송방식
+            dataType:"json",
+            success:function(result){
+                console.log(result);
+                $("#con1").html(result.result);
+            }
+        });
+    }
+    function test2(){
+        var params = { no:1 };
+        $.ajax({
+            url:"http://localhost:8081/pro02/Api2", //요청URL
+            type:"post",    //요청 전송방식
+            dataType:"json",
+            data:params,
+            success:function(result){
+                console.log(result);
+                var no = result.no;
+                var name = result.name;
+                var point = result.point
+                var html = "<p>번호 : "+no+"</p>";
+                html += "<p>이름 : "+name+"</p>";
+                html += "<p>점수 : "+point+"</p>";
+                $("#con2").html(html);
+            }
+        });
+    }
+    function test3(){
+        var params = { no:2 };
+        $.ajax({
+            url:"http://localhost:8081/pro02/Api3", //요청URL
+            type:"post",    //요청 전송방식
+            dataType:"json",
+            data:params,
+            success:function(result){
+                //console.log(result.result);
+                var data = result.result;
+                var str = JSON.stringify(data);  //JavaScript 객체를 JSON 문자열로 변환
+                var obj = JSON.parse(str);      //JSON 문자열을 JavaScript 객체로 변환
+                $("#con3").html(data);
+            }
+        });
+    }
+    function test4(){
+        $.ajax({
+            url:"http://localhost:8081/pro02/Api4", //요청URL
+            type:"post",    //요청 전송방식
+            enctype:"UTF-8",
+            dataType:"json",
+            success:function(data){
+                var trs = data;
+                //console.log(trs);
+                var txt = "";
+                $.each(trs, function(idx, value){
+                    if(idx=="data"){
+                        for(var i=0;i<value.length;i++){
+                            //console.log(value[i]);
+                            txt += "<p>번호 : "+value[i].no+"</p>";
+                            txt += "<p>이름 : "+value[i].name+"</p>";
+                            txt += "<p>점수 : "+value[i].point+"</p>";
+                            txt += "<hr>";
+                        }
+                    }
+                });
+                $("#con4").html(txt);
+            }
+        });
+    }
+	</script>   
+</body>
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<!-- 공지사항 목록 -->
+	<select id="boardList" resultType="kr.co.teaspoon.dto.Board">
+		select * from board order by regdate desc
+	</select>
+	<!-- 글 상세보기 -->
+	<select id="boardDetail" resultType="kr.co.teaspoon.dto.Board">
+		select * from board where seq=#{seq}
+	</select>
+	<!-- 글 수 카운트 -->
+	<select id="totalCount" resultType="integer" >
+		select count(*) from board
+	</select>
+	<insert id="boardInsert">
+		insert into board values (default, #{title}, #{content}, 'admin', default, default)
+	</insert>
+	<delete id="boardDelete">
+		delete from board where seq=#{seq}
+	</delete>
+	<update id="boardEdit">
+		update board set title=#{title}, content=#{content} where seq=#{seq}
+	</update>
+	<update id="countUp">
+		update board set visited=visited+1 where seq=#{seq}
+	</update>
+
+	<sql id="criteria">
+		<where>
+			<trim prefixOverrides="OR">
+				<foreach item="type" collection="typeArr">
+					<trim prefixOverrides="OR">
+						<choose>
+							<when test="type == 'T'.toString()">
+								title LIKE '%' || #{keyword} || '%'
+							</when>
+							<when test="type == 'C'.toString()">
+								content LIKE '%' || #{keyword} || '%'
+							</when>
+							<when test="type == 'W'.toString()">
+								nickname LIKE '%' || #{keyword} || '%'
+							</when>
+						</choose>
+					</trim>
+				</foreach>
+			</trim>
+		</where>
+	</sql>
+	<select id="getListWithPaging" resultType="kr.co.teaspoon.dto.Board">
+		<![CDATA[
+        select * from test
+        ]]>
+		<include refid="criteria" />
+		<![CDATA[
+        ORDER BY regdate DESC LIMIT ((#{pageNum} - 1) * #{amount}), #{amount}
+        ]]>
+	</select>
+</mapper>
