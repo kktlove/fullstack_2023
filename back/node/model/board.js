@@ -35,16 +35,16 @@ async function GetBoard(seq){
     }
 }
 
-async function AddBoard(board){
+async function AddBoard(data){
     let conn, msg, sql;
     try {
         conn = await pool.getConnection();
+        console.log("board : "+data);
         conn.query('USE teaspoon');
-        sql = `insert into board(seq, title, content, nickname, regdate, visited) values(default, ?, ?, ?, default, default);`;
-        await conn.query(sql, board);
-        msg = "등록 성공";
+        sql = `insert into board(title, content, nickname) values (?, ?, ?)`;
+        await conn.query(sql, data);
     } catch(err){
-        msg = "등록 실패";
+        msg = "등록 실패 : "+err;
         throw err;
     } finally {
         if(conn) conn.end();

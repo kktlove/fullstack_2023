@@ -40,7 +40,7 @@ async function AddMember(member){
     try {
         conn = await pool.getConnection();
         conn.query('USE teaspoon');
-        sql = `insert into member(id, pw, name, email, tel, addr1, addr2, postcode, regdate, birth, pt, visited) values(?, ?, ?, ?, ?, ?, ?, ?, default, ?, default, default);`;
+        sql = `insert into member(id, pw, name, email, tel, addr1, addr2, postcode, birth) values(?, ?, ?, ?, ?, ?, ?, ?, ?);`;
         await conn.query(sql, member);
         msg = "등록 성공";
     } catch(err){

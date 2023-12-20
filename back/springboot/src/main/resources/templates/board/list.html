@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글 목록</title>
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="content">
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <span sec:authorize="isAuthenticated()">
+                        <a th:href="|@{/member/logout}|" class="btn btn-secondary">
+                            Logout
+                        </a>
+                    </span>
+                    <h2 class="title">글 목록</h2>
+                </div>
+                <div class="card-body" >
+                    <h5 class="card-title">Board List </h5>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Bno</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Writer</th>
+                            <th scope="col">RegDate</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="dto:${boardList}"  >
+                            <td>[[${dto.bno}]]</td>
+                            <td>
+                                <a th:href="|@{/board/read(bno =${dto.bno})}|" class="text-decoration-none"> [[${dto.title}]] </a>
+                            </td>
+                            <td>[[${dto.writer}]]</td>
+                            <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div><!--end card body-->
+                <div class="my-4">
+                    <div class="float-end">
+                        <a th:href="|@{/board/write}|" class="btn btn-secondary">
+                            Insert
+                        </a>
+                    </div>
+                </div>
+            </div><!--end card-->
+        </div><!-- end col-->
+    </div><!-- end row-->
+</div>
+<script th:inline="javascript">
+    const errors = [[${errors}]]
+    console.log(errors)
+    let errorMsg = ''
+    if(errors){
+        for (let i = 0; i < errors.length; i++) {
+            errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
+        }
+        alert(errorMsg)
+    }
+
+</script>
+</body>
+</html>

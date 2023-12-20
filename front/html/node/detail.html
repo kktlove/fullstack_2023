@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+    <link rel="stylesheet" href="grids-responsive-min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+            <a class="pure-menu-heading" href="index.html">EduTech</a>
+    
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item pure-menu-selected"><a href="#" class="pure-menu-link">Home</a></li>
+                <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                    <a href="#" id="menuLink1" class="pure-menu-link">Contact</a>
+                    <ul class="pure-menu-children">
+                        <li class="pure-menu-item">
+                            <a href="list.html" class="pure-menu-link">Board List</a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a href="write.html" class="pure-menu-link">Board Write</a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a href="#" class="pure-menu-link">Your Blog</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="pure-menu-item"><a href="join.html" class="pure-menu-link">Join</a></li>
+                <li class="pure-menu-item"><a href="login.html" class="pure-menu-link">Log In</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="splash-container">
+        <div class="splash">
+            <h1 class="splash-head">Node Backend + Html Axios Frontend</h1>
+            <p class="splash-subhead">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            </p>
+            <p>
+                <a href="#" class="pure-button pure-button-primary">Get Started</a>
+            </p>
+        </div>
+    </div>
+    <div class="content-wrapper">
+        <div class="content">
+            <h2 class="content-head is-center">Board Details</h2>
+    
+            <div class="pure-g">
+                <table class="pure-table" style="width:960px;margin:20px auto;"">
+                    <tbody>
+                        <tr>
+                            <th style="width:150px;">글번호</th>
+                            <td id="seq"></td>
+                        </tr>
+                        <tr>
+                            <th>글제목</th>
+                            <td id="title"></td>
+                        </tr>
+                        <tr>
+                            <th>글 내용</th>
+                            <td id="content"></td>
+                        </tr>
+                        <tr>
+                            <th>작성자</th>
+                            <td id="writer"></td>
+                        </tr>
+                        <tr>
+                            <th>작성일시</th>
+                            <td id="regdate"></td>
+                        </tr>
+                        <tr>
+                            <th>읽은 횟수</th>
+                            <td id="visited"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="buttons">
+                <a class="pure-button button-success" href="list.html">목록</a>
+                <button type="button" class="pure-button button-success" id="delete-btn">삭제</button>
+                <button type="button" class="pure-button button-success" id="modify-btn">글 수정</button>
+            </div>
+        </div>  
+    </div>
+    
+    <div class="footer l-box is-center">
+        View the source of this layout to learn more. Made with love by the Pure Team.
+    </div>
+
+    <script>
+    var loc = new URLSearchParams(location.search);
+    var fg;
+    for (const param of loc) {
+        fg = param[1];
+    }
+    console.log(fg);
+
+    axios.get('http://localhost:4000/board/get/'+fg).then(res => {
+
+        let json = res.data;
+
+        $("#seq, #title, #content, #writer, #regdate, #visited").html("");
+        json.forEach(function (r) { 
+            $("#seq").html(r.seq);
+            $("#title").html(r.title);
+            $("#content").html(r.content);
+            $("#writer").html(r.nickname);
+            $("#regdate").html(r.regdate);
+            $("#visited").html(r.visited);
+        });
+    });
+    
+    var delBtn = document.getElementById("delete-btn");
+
+    delBtn.addEventListener("click", function(){
+        let seq = document.getElementById("seq").innerText;
+        axios.get('http://localhost:4000/board/boardDelete/'+seq).then(res => {
+            console.log(res);
+            location.href = "list.html";
+        }).catch(err => {
+            console.log(err);
+        });
+    });
+
+    var modBtn = document.getElementById("modify-btn");
+
+    modBtn.addEventListener("click", function(){
+        let seq = document.getElementById("seq").innerText;
+        location.href = "modify.html?seq="+seq;
+    });
+    </script>
+</body>
+</html>

@@ -52,11 +52,13 @@ app.get('/board/get/:seq', (req, res) => {
         });
 });
 app.post('/board/addBoardPro', (req, res) => {
-    let board = {title:req.body.title, content:req.body.content, nickname:req.body.nickname};
-    dbCon.addBoard(board)
+    var data = [req.body.title, req.body.content, req.body.nickname]
+    console.log("app : "+data);
+    dbCon.addBoard(data)
     .then((msg) => {
         console.log(msg);
-        res.send(msg);
+        //res.redirect('/board/list');
+        res.send(`<script type="text/javascript">history.go(-2);</script>`);
     })
     .catch((errMsg) => {
         console.log(errMsg);
@@ -64,12 +66,13 @@ app.post('/board/addBoardPro', (req, res) => {
 });
 
 app.post('/board/boardUpdatePro', (req, res) => {
-    let board = {seq:req.body.seq, title:req.body.title, content:req.body.content, nickname:req.body.nickname};
+    let board = [req.body.title, req.body.content, req.body.seq];
     console.log(board);
     dbCon.editBoard(board)
     .then((msg) => {
         console.log(msg);
-        res.send(msg);
+        //res.redirect('/board/list');
+        res.send(`<script type="text/javascript">history.go(-2);</script>`);
     })
     .catch((errMsg) => {
         console.log(errMsg);
@@ -80,7 +83,8 @@ app.get('/board/boardDelete/:seq', (req, res) => {
     dbCon.delBoard(seq)
     .then((msg) => {
         console.log(msg);
-        res.send(msg);
+        //res.redirect('/board/list');
+        res.send(`<script type="text/javascript">history.go(-2);</script>`);
     })
     .catch((errMsg) => {
         console.log(msg);
@@ -123,8 +127,9 @@ app.get('/member/get/:id', (req, res) => {
         });
 });
 app.post('/member/addMemberPro', (req, res) => {
-    let member = {id:req.body.id, pw:req.body.pw, name:req.body.name, email:req.body.email, tel:req.body.tel, addr1:req.body.addr1, addr2:req.body.addr2, postcode:req.body.postcode, regdate:req.body.regdate, birth:req.body.birth };
-    member.pw = hashFunction(member.pw);
+    let member = [req.body.id, req.body.pw, req.body.name, req.body.email, req.body.tel, req.body.addr1, req.body.addr2, req.body.postcode, req.body.birth];
+    //id, pw, name, email, tel, addr1, addr2, postcode, birth
+    member[1] = hashFunction(member[1]);
     dbCon2.addMember(member)
     .then((msg) => {
         console.log(msg);
@@ -136,7 +141,8 @@ app.post('/member/addMemberPro', (req, res) => {
 });
 
 app.post('/member/memberUpdatePro', (req, res) => {
-    let member = {id:req.body.id, pw:req.body.pw, name:req.body.name, tel:req.body.tel, addr1:req.body.addr1, addr2:req.body.addr2, postcode:req.body.postcode};
+    let member = [req.body.pw, req.body.name, req.body.tel, req.body.addr1, req.body.addr2, req.body.postcode, req.body.id];
+    //pw=?, name=?, tel=?, addr1=?, addr2=?, postcode=? where id=?
     console.log(member);
     dbCon2.editMember(member)
     .then((msg) => {

@@ -42,6 +42,8 @@ public class InsertBoardCtrl extends HttpServlet {
 
         String gson = new Gson().toJson(data);
         PrintWriter out = response.getWriter();
-        out.println(gson);
+        response.setContentType("text/html;charset=UTF-8");
+        out.println("<script>history.go(-2); location.reload();</script>");
+        //out.println(gson);
     }
 }

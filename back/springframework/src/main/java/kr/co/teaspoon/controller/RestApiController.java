@@ -1,5 +1,6 @@
 package kr.co.teaspoon.controller;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,48 +40,54 @@ public class RestApiController {
 
     @ResponseBody
     @GetMapping("/board/getBoardList")
-    public List<Board> getBoardList() throws Exception {
+    public List<Board> getBoardList(HttpServletResponse response) throws Exception {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         List<Board> boardList = boardService.boardList();
         return boardList;
     }
 
     @ResponseBody
     @GetMapping("/board/getBoard/{no}")
-    public Board getBoard(@PathVariable("no") int no) throws Exception {
+    public Board getBoard(@PathVariable("no") int no, HttpServletResponse response) throws Exception {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         Board board = boardService.boardDetail(no);
         return board;
     }
 
-    @ResponseBody
     @PostMapping("/board/insertBoard")
-    public String insertBoard(@RequestBody Board board) {
+    public void insertBoard(Board board,  HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         try {
             boardService.boardInsert(board);
-            return "ok";
         } catch(Exception e){
-            return "fail";
+            e.printStackTrace();
         }
     }
 
-    @ResponseBody
     @PostMapping("/board/updateBoard")
-    public String updateBoard(@RequestBody Board board) {
+    public void updateBoard(Board board, HttpServletResponse response) throws IOException {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        PrintWriter out = response.getWriter();
         try {
             boardService.boardEdit(board);
-            return "ok";
         } catch(Exception e){
-            return "fail";
+            e.printStackTrace();
         }
+        out.println("<script>history.go(-2);</script>");
     }
 
-    @ResponseBody
     @PostMapping("/board/deleteBoard")
-    public String deleteBoard(@RequestParam("seq") int seq) {
+    public void deleteBoard(@RequestParam("seq") int seq, HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         try {
             boardService.boardDelete(seq);
-            return "ok";
         } catch(Exception e){
-            return "fail";
+            e.printStackTrace();
         }
     }
 
