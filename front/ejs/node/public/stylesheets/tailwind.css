@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn-group {
+    clear:both;
+    width:600px;
+    margin:10px auto;
+}
+  
+.btn {
+    display:inline-block;
+    margin:8px;
+    padding:7px;
+    background-color:#333;
+    color:#fff;
+}

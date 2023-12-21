@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>board</title>
+<style>
+	.btn-group {
+	  clear:both;
+	  width:600px;
+	  margin:10px auto;
+	}
+	
+	.btn {
+		text-decoration: none;
+	  text-align:center;
+	  display:inline-block;
+	  margin:8px;
+	  padding:7px;
+	  background-color:#333;
+	  color:#fff;
+	}
+	</style>
+</head>
+<body>
+	<form name="form1" action="/board/save" method="post">
+		<table style="width:600px; margin:20px auto;">
+			<caption>게시판</caption>
+			<colgroup>
+				<col width='15%' />
+				<col width='*%' />
+			</colgroup>
+			<tbody>
+				<tr>
+					<th style="border-top:1px solid #333; border-bottom:1px solid #333;"><label for="title">제목</label></th> 
+					<td style="border-top:1px solid #333; border-bottom:1px solid #333;"><input type="text" name="title" id="title" placeholder="제목 입력" size="70" maxlength="100" required autofocus></td> 
+				</tr>
+				<tr>
+					<th style="border-bottom:1px solid #333;"><label for="content">내용</label></th> 
+					<td style="border-bottom:1px solid #333;"><textarea name="content" id="content" rows="5" cols="60" maxlength="255" required></textarea></td> 
+				</tr>
+				<tr>
+					<th style="border-bottom:1px solid #333;"><label for="nickname">작성자</label></th>
+					<td style="border-bottom:1px solid #333;">
+						<input type="text" name="nickname" id="nickname" placeholder="작성자 ID" maxlength="100" required>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="btn-group">
+			<button type="submit" class="btn">저장</button>
+		</div>
+	</form>	
+</body>
+</html>

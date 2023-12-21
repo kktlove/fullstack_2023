@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>board</title>
+<style>
+.btn-group {
+  clear:both;
+  width:600px;
+  margin:10px auto;
+}
+
+.btn {
+	text-decoration: none;
+	  text-align:center;
+  display:inline-block;
+  margin:8px;
+  padding:7px;
+  background-color:#333;
+  color:#fff;
+}
+</style>
+</head>
+<body>
+	<div class="btn-group">
+		<a href="/board/form" class="btn">글쓰기</a>
+	</div>				
+	<table style="width:600px; margin:20px auto;">
+		<caption>게시판 목록</caption>
+		<colgroup>
+			<col width='8%' />
+			<col width='*%' />
+			<col width='15%' />
+			<col width='15%' />
+		</colgroup>
+		<thead>
+			<tr>
+				<th style="border-top:1px solid #333; border-bottom:1px solid #333;">번호</th> 
+				<th style="border-top:1px solid #333; border-bottom:1px solid #333;">제목</th>
+				<th style="border-top:1px solid #333; border-bottom:1px solid #333;">등록일</th>
+			</tr>
+		</thead>
+		<tbody>
+		<%
+			 for(var i=0; i<rows.data.length;i++) {
+		%>
+			<tr>
+				<td style="border-bottom:1px solid #333;" id="seq"><%=rows.data[i].seq%></td>
+				<td style="border-bottom:1px solid #333;" id="title"><a href='/board/read?seq=<%=rows.data[i].seq%>'><%=rows.data[i].title%></a></td>
+				<td style="border-bottom:1px solid #333;" id="regdate"><%=rows.data[i].regdate.substring(0, 10)%></td>
+			</tr>
+		<%
+			 }
+		%>
+		</tbody>
+	</table>    
+</body>
+</html>

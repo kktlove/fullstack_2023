@@ -1,0 +1,32 @@
+doctype html
+html
+  head
+    title 게시판 상세보기
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    include ../header
+    table
+        tbody 
+            tr
+                th 연번
+                td= row.seq   
+            tr
+                th 제목
+                td= row.title
+            tr 
+                th 내용
+                td= row.content 
+            tr 
+                th 작성자
+                td= row.nickname
+            tr 
+                th 작성일시
+                td= row.regdate.substring(0, 10) 
+            tr 
+                th 읽은 횟수 
+                td= row.visited
+    .btn-group 
+        a.btn(href='/board/list') 목록
+        a.btn(href='/board/delete?seq='+row.seq) 삭제
+        a.btn(href='/board/modify?seq='+row.seq) 수정
+    include ../footer 

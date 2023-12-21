@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title 게시판 목록
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    include ../header
+    table
+        thead 
+            tr 
+                th Num 
+                th Title 
+                th Writer 
+                th RegDate 
+        tbody 
+            each val in rows.data
+                tr
+                    td= val.seq   
+                    td 
+                        a(href='/board/read?seq='+val.seq) #{val.title}
+                    td= val.nickname 
+                    td= val.regdate.substring(0, 10) 
+    .btn-group 
+        a.btn(href='/board/form') 글쓰기
+    include ../footer 

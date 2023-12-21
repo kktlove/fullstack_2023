@@ -1,0 +1,26 @@
+doctype html
+html
+  head
+    title 게시판 글쓰기
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    include ../header
+    form(name='form1', action='/board/save', method='post')
+        table
+            tbody  
+                tr
+                    th 제목
+                    td
+                        input(type='text', name='title', id='title', placeholder='제목 입력', size='70', maxlength='100', required, autofocus)
+                tr 
+                    th 내용
+                    td
+                        textarea(name='content',  id='content', rows='5', cols='60', maxlength='255', required)
+                tr 
+                    th 작성자
+                    td
+                        input(type='text', name='nickname', id='nickname', placeholder='작성자 ID', maxlength='100', required)
+        .btn-group 
+            button.btn(type='submit') 글쓰기
+            a.btn(href='/board/list') 목록
+    include ../footer 
