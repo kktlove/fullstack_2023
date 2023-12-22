@@ -21,6 +21,20 @@ async function GetBoardList(){
     }
 }
 
+async function GetBoardCount(){
+    let conn, rows;
+    try {
+        conn = await pool.getConnection();
+        conn.query('USE teaspoon');
+        rows = await conn.query('select count(*) from board');
+    } catch(err){
+        throw err;
+    } finally {
+        if(conn) conn.end();
+        return rows;
+    }
+}
+
 async function GetBoard(seq){
     let conn, rows;
     try {
@@ -88,5 +102,5 @@ async function DelBoard(seq){
 
 module.exports = { 
     getBoardList: GetBoardList, getBoard: GetBoard, addBoard:AddBoard,
-    editBoard:EditBoard, delBoard:DelBoard 
+    editBoard:EditBoard, delBoard:DelBoard, getBoardCount: GetBoardCount 
 }

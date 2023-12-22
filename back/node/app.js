@@ -42,6 +42,15 @@ app.get('/board/list', (req, res) => {
             res.send(errMsg);
         });
 });
+app.get('/board/count', (req, res) => {
+    dbCon.getBoardCount()
+        .then((row) => {
+            res.json(row);
+        })
+        .catch((errMsg) => {
+            res.send(errMsg);
+        });
+});
 app.get('/board/get/:seq', (req, res) => {
     dbCon.getBoard(req.params.seq)
         .then((row) => {
